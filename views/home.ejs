@@ -1,0 +1,189 @@
+<html>
+    <head>
+        <title>Alarm Clock</title>
+        <link rel="stylesheet" href="/css/alarm_clock.css">
+        <script src="https://kit.fontawesome.com/e1db25fb05.js" crossorigin="anonymous"></script>
+        <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    </head>
+    <body>
+        <!-- main container which contain all the items -->
+        <div id="container">
+            <!-- displaying the time int div -->
+            <div id="time" onload="currTime()"></div>
+                <h3 id="alarm_heading">
+                    SET ALARM TIME
+                </h3>
+                <!-- set alarm container -->
+                <div id='alarm_container'>                    
+                    <div>
+                        <select id='alarm_hours'></select>
+                    </div>                
+                    <div>
+                        <select id='alarm_mins'></select>
+                    </div>
+                    <div>
+                        <select id='alarm_secs'></select>
+                    </div>
+                    <div>
+                        <select id='ampm_session'>
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                        </select>
+                    </div>                                         
+                </div>
+                <button  id='set_button' onClick='alarmSet()'>SET ALARM</button>
+                <div id="alarm_list_container">
+                    <div id="alarm_clock_icon">
+                        
+                    </div>
+                    <div id="alarms">
+
+                    </div>
+                    <div id="delete_alarm">
+
+                    </div>
+                </div>
+        </div>
+    <!--Script for displaying the clock -->
+    <script>
+        //function to get the current time
+        function currTime() {
+            var date = new Date(); //getting the current date 
+            var hour = date.getHours(); //getting the current hour
+            var min = date.getMinutes(); //getting the exact minutes
+            var sec = date.getSeconds(); //getting the exact seconds
+            var currentSession = (date.getHours()) < 12 ? 'AM' : 'PM'; //setting the current session of the day
+    
+            //checking if hour is equal to 0 then set it to 12
+            if(hour === 0){
+                hour = 12;
+            }
+            
+            //appending 0's where value is less than 10
+            hour = (hour < 10) ? "0" + hour : hour;
+            min = (min < 10) ? "0" + min : min;
+            sec = (sec < 10) ? "0" + sec : sec;
+     
+            //forming the current time with all the values
+            var CurrentTime = hour + ":" + min + ":" + sec + " " + currentSession;
+
+            //displaying the time in the id time
+            document.getElementById("time").innerText = CurrentTime; 
+
+            //updating the time every second
+            let time = setTimeout(function(){ currTime() }, 1000);
+        }
+        currTime();
+    </script>
+
+    <!--Script for displaying the alarm options -->
+    <script>
+        //function to display the hours in the option menu
+        function hours(){
+            let select = document.getElementById('alarm_hours');
+            let totalhours = 12;
+            for (i=1; i <= totalhours; i++) {
+                select.options[select.options.length] = new Option( i < 10 ? "0" + i : i, i);
+            }
+        }
+        hours();
+
+        //function to display the minutes in the option menu
+        function mins(){
+            var select = document.getElementById('alarm_mins');
+            var minutes = 59;
+            for (i=0; i <= minutes; i++) {
+                select.options[select.options.length] = new Option(i < 10 ? "0" + i : i, i);
+            }
+        }
+        mins();
+
+        //function to display the minutes in the option menu
+        function secs(){
+            var select = document.getElementById('alarm_secs');
+            var seconds = 59;
+            for (i=0; i <= seconds; i++) {
+                select.options[select.options.length] = new Option(i < 10 ? "0" + i : i, i);
+            }
+        }
+        secs();
+
+        function alarmSet() {
+
+            let hour = document.getElementById('alarm_hours');
+            let minutes = document.getElementById('alarm_mins');
+            let seconds = document.getElementById('alarm_secs');
+            let session = document.getElementById('ampm_session');
+
+            let selectedHour = hour.options[hour.selectedIndex].value;
+            let selectedMin = minutes.options[minutes.selectedIndex].value;
+            let selectedSec = seconds.options[seconds.selectedIndex].value;
+            let selectedAP = session.options[session.selectedIndex].value;
+
+            console.log("hour = ",selectedHour);
+            console.log("min = ",selectedMin);
+            console.log("sec = ",selectedSec);
+            console.log("session = ",selectedAP);
+
+            var alarmTime = addZero(selectedHour) + ":" + addZero(selectedMin) + ":" + addZero(selectedSec) + " " + selectedAP;
+            localStorage.setItem(localStorage.length+1,alarmTime);
+
+
+            document.getElementById('alarm_hours').disabled = true;
+            document.getElementById('alarm_mins').disabled = true;
+            document.getElementById('alarm_secs').disabled = true;
+            document.getElementById('ampm_session').disabled = true;
+
+            setTimeout(function(){
+                var date = new Date();
+                var hours = (12 - (date.getHours()));
+                var minutes = date.getMinutes();
+                var seconds = date.getSeconds();
+                var ampm = (date.getHours()) < 12 ? 'AM' : 'PM';
+
+                if (hours < 0) {
+                    hours = hours * -1;
+                } else if (hours == 00) {
+                    hours = 12;
+                } else {
+                    hours = hours;
+                }
+
+                var currTime = addZero(hours) + ":" + addZero(minutes) + ":" + addZero(seconds) + " " + ampm;
+
+                if (alarmTime == currTime) {
+                    alert("hello alarm");
+                }
+
+            },1000);
+        }
+
+        function addZero(time) {
+            return (time < 10) ? "0" + time : time;
+        }
+
+        for(var i = localStorage.length ; i >= 1 ; i--){
+            var icon = document.getElementById("alarm_clock_icon");
+            var clockicon = document.createElement("div");
+            clockicon.innerHTML = '<i class="fa-solid fa-clock"></i>';
+            icon.appendChild(clockicon);
+            var div = document.createElement("div");
+            div.innerHTML = localStorage.getItem(i);
+            var element = document.getElementById("alarms");
+            element.appendChild(div);
+            var button = document.createElement("button");
+            button.setAttribute("id","delete_button");
+            button.value = i;
+            button.innerText = "DELETE";
+            button.onclick = "deleteMyAlarm(button.value)";
+            var del_button = document.getElementById("delete_alarm");
+            del_button.appendChild(button);
+        }
+
+        function deleteMyAlarm(){
+            var item = document.getElementById("delete_button").value;
+            localStorage.removeItem(item);
+        } 
+    </script>
+    </body>
+</html>

@@ -1,0 +1,119 @@
+body{
+    margin: 0;
+    background-image: linear-gradient(to right top, #294a30, #465c43, #616f59, #7b8371, #94978b);
+}
+
+#container{
+    color: black;
+    font-size: 25px;
+    width: 400px;
+    height: 500px;
+    border-radius: 20px;
+    margin-left: 35%;
+    margin-top: 5%;
+    padding: 20px;
+    background-image: linear-gradient(to right top, #0b0c0e, #191c1e, #252b2a, #333936, #464841);
+}
+
+#time{
+    width:70%;
+    padding: 15px;
+    border-radius: 30px;
+    background-color: bisque;
+    color: rgb(8, 8, 8);
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 30px;
+    margin-left: 10%;
+    text-align: center;
+}
+
+#alarm_heading{
+    color: bisque;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    margin-left: 15%;
+}
+
+#alarm_container{
+    display: flex;
+    margin-left: 20%;
+}
+
+#alarm_hours, #alarm_mins, #alarm_secs, #ampm_session{
+    padding: 10px;
+}
+
+#set_button{
+    padding: 10px 40px;
+    background-color: bisque;
+    color: black;
+    font-weight: bold;
+    font-size: 15px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    margin-left: 30%;
+}
+
+#set_button:hover{
+    cursor: pointer;
+    background-color: #0e1111;
+    color: antiquewhite;
+}
+
+#alarm_list_container{
+    height: 255px;
+    width: 90%;
+    margin-top: 15px;
+    overflow-y: scroll;
+    display: flex;
+    margin-left: 40px;
+}
+
+::-webkit-scrollbar {
+    width: 1px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(36, 35, 35);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #585757;
+  }
+
+#alarm_clock_icon{    
+    width: 20%;
+}
+
+.fa-solid{
+    font-size: 22px;
+    color:bisque;
+    margin-top: 6px;
+}
+
+#alarms{
+    color:bisque;
+    width: 50%;
+    margin-left: 10px;
+    margin-top: 3px;
+}
+
+#delete_alarm{
+    width: 10%;
+}
+
+#delete_button{
+    background-color: bisque;
+    padding: 5px;
+    color: black;
+    border: none;
+    border-radius: 3px;
+    margin-top: 3px;
+}
+
+#delete_button:hover{
+    cursor: pointer;
+    background-color: #0e1111;
+    color: antiquewhite;    
+}

@@ -1,0 +1,16 @@
+{
+  "name": "alarm-clock",
+  "version": "1.0.0",
+  "description": "User can set alarm and also see the actual time",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jasvinder Singh Sandhu",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "nodemon": "^2.0.19"
+  }
+}
