@@ -182,8 +182,9 @@
 
         function deleteMyAlarm(){
             var item = document.getElementById("delete_button").value;
+            console.log(localStorage.getItem(item));
             localStorage.removeItem(item);
-        } 
+        }
     </script>
     </body>
 </html>

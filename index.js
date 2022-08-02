@@ -5,7 +5,7 @@ const express = require('express');
 const app = express();
 
 //setting the port number
-const port = 8000;
+const port = process.env.PORT || 8000;
 
 //setting the path for the views 'ejs'
 const path = require('path');
