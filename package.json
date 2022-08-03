@@ -4,6 +4,7 @@
   "description": "User can set alarm and also see the actual time",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Jasvinder Singh Sandhu",
