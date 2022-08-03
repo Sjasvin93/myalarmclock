@@ -3,6 +3,8 @@
         <title>Alarm Clock</title>
         <link rel="stylesheet" href="/css/alarm_clock.css">
         <script src="https://kit.fontawesome.com/e1db25fb05.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet"/>
     </head>
     <body>
         <!-- main container which contain all the items -->
@@ -140,9 +142,14 @@
                 var sec = date.getSeconds(); //getting the exact seconds
                 var currentSession = (date.getHours()) < 12 ? 'AM' : 'PM'; //setting the current session of the day
     
-                //checking if hour is equal to 0 then set it to 12
+                
                 if(hour === 0){
                     hour = 12;
+                }else if(hour > 12){
+                    hour = hour - 12;
+                     if(hour < 0){
+                        hour = hour * -1;
+                     }
                 }
             
                 //appending 0's where value is less than 10
@@ -152,9 +159,15 @@
      
                 //forming the current time with all the values
                 var realTime = hour + ":" + min + ":" + sec + " " + currentSession;
+                console.log("alarm time =",alarmTime);
+                console.log("real time = ", realTime);
                 
                 if (alarmTime == realTime) {
-                    alert("hello alarm");
+                    swal({  
+                        title: "Alarm Ringing....",  
+                        text: " WAKE UP ! It's time to go to work",  
+                        button: "OK",
+                    });  
                 }
 
             },1000);
@@ -177,15 +190,16 @@
             button.setAttribute("id","delete_button");
             button.value = i;
             button.innerText = "DELETE";
-            button.onclick = "deleteMyAlarm(button.value)";
+            button.onclick = function deleteMyAlarm(){
+                                var item = document.getElementById("delete_button").value;
+                                localStorage.removeItem(item);
+                             }   
             var del_button = document.getElementById("delete_alarm");
             del_button.appendChild(button);
         }
-
-        function deleteMyAlarm(){
-            var item = document.getElementById("delete_button").value;
-            localStorage.removeItem(item);
-        }
+    </script>
+    <script>
+        
     </script>
     </body>
 </html>

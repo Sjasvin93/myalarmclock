@@ -40,6 +40,10 @@ body{
 
 #alarm_hours, #alarm_mins, #alarm_secs, #ampm_session{
     padding: 10px;
+    margin: 2px;
+    background-color: bisque;
+    border: none;
+    border-radius: 3px;
 }
 
 #set_button{
@@ -117,3 +121,12 @@ body{
     background-color: #0e1111;
     color: antiquewhite;    
 }
+
+.swal-overlay {
+    background-color: rgba(43, 165, 137, 0.45) !important;
+}
+
+.swal-modal {
+    background-color: rgba(63,255,106,0.69) !important;
+    border: none !important;
+  }
