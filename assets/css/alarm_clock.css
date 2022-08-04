@@ -74,7 +74,7 @@ body{
 }
 
 ::-webkit-scrollbar {
-    width: 1px;
+    width: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -83,7 +83,7 @@ body{
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #585757;
+    background: bisque;
   }
 
 #alarm_clock_icon{    

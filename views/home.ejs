@@ -2,9 +2,9 @@
     <head>
         <title>Alarm Clock</title>
         <link rel="stylesheet" href="/css/alarm_clock.css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet"/>
         <script src="https://kit.fontawesome.com/e1db25fb05.js" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet"/>
     </head>
     <body>
         <!-- main container which contain all the items -->
@@ -32,8 +32,10 @@
                         </select>
                     </div>                                         
                 </div>
+                <!-- set alarm button -->
                 <button  id='set_button' onClick='alarmSet()'>SET ALARM</button>
-                <div id="alarm_list_container">
+                <!-- this container displays all the list of the past alarms selected by the user -->
+                <div id="alarm_list_container" onload="fetchalarms()">
                     <div id="alarm_clock_icon">
                         
                     </div>
@@ -109,6 +111,7 @@
         }
         secs();
 
+        //function to set the alarm
         function alarmSet() {
 
             let hour = document.getElementById('alarm_hours');
@@ -121,20 +124,37 @@
             let selectedSec = seconds.options[seconds.selectedIndex].value;
             let selectedAP = session.options[session.selectedIndex].value;
 
-            console.log("hour = ",selectedHour);
-            console.log("min = ",selectedMin);
-            console.log("sec = ",selectedSec);
-            console.log("session = ",selectedAP);
 
+            //forming the alarm time based on the values selected byy the user
             var alarmTime = addZero(selectedHour) + ":" + addZero(selectedMin) + ":" + addZero(selectedSec) + " " + selectedAP;
             localStorage.setItem(localStorage.length+1,alarmTime);
 
 
-            document.getElementById('alarm_hours').disabled = true;
-            document.getElementById('alarm_mins').disabled = true;
-            document.getElementById('alarm_secs').disabled = true;
-            document.getElementById('ampm_session').disabled = true;
+            //function to update the alarms in current time
+            function fetchalarms(){    
+                var icon = document.getElementById("alarm_clock_icon");
+                var clockicon = document.createElement("div");
+                clockicon.innerHTML = '<i class="fa-solid fa-clock"></i>';
+                icon.appendChild(clockicon);
+                var div = document.createElement("div");
+                div.innerHTML = localStorage.getItem(localStorage.length);
+                var element = document.getElementById("alarms");
+                element.appendChild(div);
+                var button = document.createElement("button");
+                button.setAttribute("id","delete_button");
+                button.value = i;
+                button.innerText = "DELETE";
+                button.onclick = function deleteMyAlarm(){
+                                    var item = document.getElementById("delete_button").value;
+                                    localStorage.removeItem(item);
+                                }   
+                var del_button = document.getElementById("delete_alarm");
+                del_button.appendChild(button);
+            }
+            fetchalarms();
 
+            //set interval fuction checks every second if alarm time is equal to current time 
+            // if yes then alert the user
             setInterval(function(){
                 var date = new Date(); //getting the current date 
                 var hour = date.getHours(); //getting the current hour
@@ -162,44 +182,46 @@
                 console.log("alarm time =",alarmTime);
                 console.log("real time = ", realTime);
                 
+                //checking if the real time is equal to current time
                 if (alarmTime == realTime) {
+                    //sweet alert to alert the user
                     swal({  
                         title: "Alarm Ringing....",  
                         text: " WAKE UP ! It's time to go to work",  
                         button: "OK",
                     });  
                 }
-
             },1000);
         }
 
+        //function to add zero to the values less than 10 in hours, mins and secs
         function addZero(time) {
             return (time < 10) ? "0" + time : time;
         }
 
+    
+        //this loop is used to display all the past alarms set by the user on to the screen
         for(var i = localStorage.length ; i >= 1 ; i--){
-            var icon = document.getElementById("alarm_clock_icon");
-            var clockicon = document.createElement("div");
-            clockicon.innerHTML = '<i class="fa-solid fa-clock"></i>';
-            icon.appendChild(clockicon);
-            var div = document.createElement("div");
-            div.innerHTML = localStorage.getItem(i);
-            var element = document.getElementById("alarms");
-            element.appendChild(div);
-            var button = document.createElement("button");
-            button.setAttribute("id","delete_button");
-            button.value = i;
-            button.innerText = "DELETE";
-            button.onclick = function deleteMyAlarm(){
-                                var item = document.getElementById("delete_button").value;
-                                localStorage.removeItem(item);
-                             }   
-            var del_button = document.getElementById("delete_alarm");
-            del_button.appendChild(button);
+                var icon = document.getElementById("alarm_clock_icon");
+                var clockicon = document.createElement("div");//creating a dynamic div
+                clockicon.innerHTML = '<i class="fa-solid fa-clock"></i>'; // clock icon
+                icon.appendChild(clockicon);
+                var div = document.createElement("div");//creating the dynamic div
+                div.innerHTML = localStorage.getItem(i);
+                console.log("key = "+localStorage.key(i));
+                var element = document.getElementById("alarms");
+                element.appendChild(div);
+                var button = document.createElement("button");//creating a dynamic button
+                button.setAttribute("id","delete_button");//setting the id for the button
+                button.value = i;
+                button.innerText = "DELETE";
+                button.onclick = function deleteMyAlarm(){ //function to delete past alarms when button is clicked
+                                    var item = document.getElementById("delete_button").value;
+                                    localStorage.removeItem(item);
+                                }   
+                var del_button = document.getElementById("delete_alarm");
+                del_button.appendChild(button);
         }
-    </script>
-    <script>
-        
     </script>
     </body>
 </html>
